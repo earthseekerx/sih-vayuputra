@@ -7,6 +7,7 @@ from pathlib import Path
 from typing import List, Tuple, Dict, Optional
 
 import cv2
+import open3d as o3d
 import numpy as np
 import streamlit as st
 import plotly.graph_objects as go
@@ -252,6 +253,8 @@ def try_open3d_mesh(points: np.ndarray, colors: np.ndarray) -> Tuple[Optional[by
         pc, _ = pc.remove_statistical_outlier(nb_neighbors=18, std_ratio=2.0)
         if len(pc.points) < 50:
             return None, "Not enough points for meshing"
+        pc.estimate_normals(search_param=o3d.geometry.KDTreeSearchParamKNN(knn=30))
+        pc.orient_normals_consistent_tangent_plane(k=15)
         mesh, densities = o3d.geometry.TriangleMesh.create_from_point_cloud_poisson(pc, depth=7)
         mesh.compute_vertex_normals()
         # Write temporary OBJ for browser/download.
