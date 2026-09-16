@@ -1,0 +1,11 @@
+streamlit>=1.36
+opencv-python>=4.8
+numpy>=1.24
+pillow>=10.0
+plotly>=5.20
+torch>=2.4
+transformers>=4.55
+safetensors>=0.4
+# Optional production-stage modules:
+# open3d>=0.18
+# ultralytics>=8.3
